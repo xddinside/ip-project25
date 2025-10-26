@@ -3,10 +3,12 @@ import Header from '@/components/Header';
 
 export default function SignUpPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Header />
-      <div className="flex items-center justify-center py-12">
-        <SignUp />
+      <div className="flex-1 flex items-center justify-center py-16 px-4">
+        <div className="max-w-2xl mx-auto">
+          <SignUp />
+        </div>
       </div>
     </div>
   );
