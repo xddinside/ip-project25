@@ -40,8 +40,8 @@ export default function ChallengesPage() {
 
             {/* Right Side: Stats and Button */}
             <div className="flex flex-col gap-4 lg:items-end">
-              {/* Stats Cards - Fixed Grid Layout */}
-              <div className="grid grid-cols-5 gap-3 w-fit flex-shrink-0">
+               {/* Stats Cards - Responsive Grid Layout */}
+               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 w-full lg:w-fit flex-shrink-0">
                 {/* Solved/Total Combined Stat - Premium Neutral Gradient */}
                 <div className="group bg-gradient-to-br from-neutral-900 via-neutral-700 to-neutral-900 hover:from-emerald-900 hover:via-emerald-800 hover:to-emerald-900 backdrop-blur-sm border border-neutral-600/50 hover:border-emerald-500/30 rounded-lg p-4 text-center hover:shadow-2xl hover:shadow-emerald-900/25 hover:outline-2 hover:outline-emerald-400/30 transition-all duration-300 hover:-translate-y-1 min-w-0 flex-shrink-0">
                   <div className="text-2xl font-bold font-mono text-white mb-1">
