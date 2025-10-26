@@ -17,6 +17,24 @@ export default defineSchema({
     createdBy: v.string(),
     createdAt: v.number(),
   }),
+  userProgress: defineTable({
+    userId: v.string(),
+    challengeId: v.id("challenges"),
+    solved: v.boolean(),
+    solvedAt: v.optional(v.number()),
+  })
+    .index("by_user", ["userId"])
+    .index("by_challenge", ["challengeId"])
+    .index("by_user_challenge", ["userId", "challengeId"]),
+  ratings: defineTable({
+    challengeId: v.id("challenges"),
+    userId: v.string(),
+    rating: v.number(), // 1-5 stars
+    ratedAt: v.number(),
+  })
+    .index("by_challenge", ["challengeId"])
+    .index("by_user", ["userId"])
+    .index("by_challenge_user", ["challengeId", "userId"]),
   solutions: defineTable({
     challengeId: v.id("challenges"),
     userId: v.string(),
