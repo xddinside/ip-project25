@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from 'convex/react';
-import { api } from '../../convex/_generated/api';
+import { api } from '@/convex/_generated/api';
 import Header from '@/components/Header';
 import ChallengeCard from '@/components/ChallengeCard';
 import { Button } from '@/components/ui/button';
