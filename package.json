@@ -8,9 +8,9 @@
     "dev": "next dev",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "lint:ci": "SKIP_ENV_VALIDATION=true next lint",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:ci": "eslint .",
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit"

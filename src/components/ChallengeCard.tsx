@@ -1,10 +1,11 @@
- import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
- import { Badge } from '@/components/ui/badge';
- import { Button } from '@/components/ui/button';
- import { Target, Clock, Star, CheckCircle, Circle } from 'lucide-react';
- import { useMutation, useQuery } from 'convex/react';
- import { api } from '@/convex/_generated/api';
- import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Target, Clock, Star, CheckCircle, Circle } from 'lucide-react';
+import { useMutation, useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import { useState } from 'react';
 
 interface Challenge {
   _id: string;
@@ -26,9 +27,9 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
   const markChallengeSolved = useMutation(api.challenges.markChallengeSolved);
   const rateChallenge = useMutation(api.challenges.rateChallenge);
 
-  const challengeRating = useQuery(api.challenges.getChallengeRating, { challengeId: challenge._id as any });
+  const challengeRating = useQuery(api.challenges.getChallengeRating, { challengeId: challenge._id as Id<"challenges"> });
   const userRating = useQuery(api.challenges.getUserRating, {
-    challengeId: challenge._id as any,
+    challengeId: challenge._id as Id<"challenges">,
     userId: userId || ""
   });
 
@@ -65,7 +66,7 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
     setIsUpdating(true);
     try {
       await markChallengeSolved({
-        // @ts-ignore - Convex ID type mismatch
+        // @ts-expect-error - Convex ID type mismatch
         challengeId: challenge._id,
         solved: !isSolved,
       });
@@ -81,7 +82,7 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
 
     try {
       await rateChallenge({
-        challengeId: challenge._id as any,
+        challengeId: challenge._id as Id<"challenges">,
         rating,
       });
     } catch (error) {
