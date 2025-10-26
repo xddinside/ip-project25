@@ -41,12 +41,12 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
         };
       case 'medium':
         return {
-          color: 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200',
+          color: 'bg-yellow-100 text-yellow-800 border-yellow-200 hover:bg-yellow-200 hover:border-yellow-300',
           icon: <Target size={14} className="text-yellow-600" />
         };
       case 'hard':
         return {
-          color: 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200',
+          color: 'bg-red-100 text-red-800 border-red-200 hover:bg-red-200 hover:border-red-300',
           icon: <Clock size={14} className="text-red-600" />
         };
       default:
@@ -90,7 +90,7 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
   };
 
   return (
-    <Card className={`group relative overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 hover:border-primary/30 bg-card/60 backdrop-blur-sm ${isSolved ? 'ring-2 ring-green-500/30 shadow-lg shadow-green-500/10' : 'hover:shadow-primary/5'}`}>
+    <Card className={`group relative overflow-hidden h-[420px] flex flex-col hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 hover:border-primary/30 bg-card/60 backdrop-blur-sm ${isSolved ? 'ring-2 ring-green-500/30 shadow-lg shadow-green-500/10' : 'hover:shadow-primary/5'}`}>
       {/* Background gradient overlay for solved challenges */}
       {isSolved && (
         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-green-500/5 pointer-events-none" />
@@ -98,15 +98,15 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
 
 
 
-      <CardHeader className="pb-4 relative">
-        <div className="flex items-start justify-between mb-3">
+      <CardHeader className="pb-3 pt-2 relative flex-shrink-0">
+        <div className="flex items-start justify-between mb-2">
           <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors duration-300 line-clamp-2 leading-tight">
             {challenge.title}
           </CardTitle>
           {isSolved && (
             <div className="flex-shrink-0 ml-2">
               <div className="relative">
-                <CheckCircle size={24} className="text-green-500 drop-shadow-sm" />
+                <CheckCircle size={20} className="text-green-500 drop-shadow-sm" />
                 <div className="absolute inset-0 bg-green-500/20 rounded-full blur-md animate-pulse" />
               </div>
             </div>
@@ -117,8 +117,8 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
         </p>
       </CardHeader>
 
-      <CardContent className="pt-0 space-y-4">
-        <div className="flex items-center justify-between">
+      <CardContent className="pt-0 px-6 pb-4 space-y-5 flex-1 overflow-hidden">
+        <div className="flex items-center justify-between mt-3">
           <Badge
             variant="outline"
             className={`${difficultyConfig.color} border-2 font-semibold capitalize gap-2 px-3 py-1 text-sm shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 select-none`}
@@ -135,30 +135,22 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
         </div>
 
         {challenge.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {challenge.tags.slice(0, 3).map((tag, index) => (
+          <div className="flex flex-wrap gap-1.5">
+            {challenge.tags.map((tag, index) => (
               <Badge
                 key={tag}
                 variant="secondary"
-                className="text-xs px-3 py-1 bg-secondary/60 border border-border/50"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="text-xs px-2 py-0.5 bg-secondary/60 border border-border/50"
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 #{tag}
               </Badge>
             ))}
-            {challenge.tags.length > 3 && (
-              <Badge
-                variant="secondary"
-                className="text-xs px-3 py-1 bg-secondary/60 border border-border/50"
-              >
-                +{challenge.tags.length - 3} more
-              </Badge>
-            )}
           </div>
         )}
 
         {/* Rating Section */}
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               {[1, 2, 3, 4, 5].map((star) => {
@@ -217,8 +209,8 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
         </div>
       </CardContent>
 
-      {userId && (
-        <CardFooter className="pt-4 pb-6">
+      <CardFooter className="pt-3 pb-4 mt-auto">
+        {userId ? (
           <Button
             variant={isSolved ? "outline" : "default"}
             size="sm"
@@ -226,7 +218,7 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
             disabled={isUpdating}
             className={`w-full gap-2 font-medium transition-all duration-300 ${
               isSolved
-                ? 'border-border text-foreground hover:bg-muted hover:border-border/80 bg-background'
+                ? 'border-green-600 text-green-800 hover:bg-green-100 hover:border-green-700 bg-green-50/50 ring-2 ring-green-500/40 shadow-sm'
                 : 'hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] active:scale-[0.98]'
             }`}
           >
@@ -247,8 +239,10 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
               </>
             )}
           </Button>
-        </CardFooter>
-      )}
+        ) : (
+          <div className="w-full h-9" /> // Placeholder to maintain consistent height
+        )}
+      </CardFooter>
 
       {/* Hover effect overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-transparent to-primary/0 group-hover:from-primary/5 group-hover:to-primary/5 transition-all duration-500 pointer-events-none rounded-xl" />

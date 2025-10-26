@@ -1,19 +1,34 @@
-Some More Changes:
+# CodeFun
 
-- Make the CodeFun text and logo redirect to the homepage.
+A modern web platform for coding challenges built with Next.js and Convex.
 
-- Add a sign in and login page, instead of having the sign in component hover over.
+## Description
 
-- Add a login button as well in the header, with redirects to the login and sign in pages respectively
+CodeFun allows users to create, browse, and solve coding challenges. Features user authentication, challenge creation, and progress tracking.
 
-- Empty out the landing page, with only a CTA get started button for now.
+## Tech Stack
 
-- Clicking the get started button should make the user redirect them to the sign in page if they're not logged in, else redirect to a new /challenges route. In the challenges page, show the existing challenges and the create new challege button, etc stuff.
+- **Frontend**: Next.js, React, TypeScript
+- **Backend**: Convex
+- **Authentication**: Clerk
+- **UI**: Tailwind CSS, shadcn/ui components
 
-- After the user logs in, redirect them to a /challenges route, where there'll be the quizzes, instead of it being on the home page
+## Installation
 
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up Convex: `npx convex dev`
+4. Run the app: `npm run dev`
 
+## Features
 
-- we need to sync the user from clerk into convex, and make sure everything works correctly and is being stored in the db properly.
+- User sign-in/sign-up
+- Create and view challenges
+- Responsive design
+- Real-time data with Convex
 
-- make a challenges show up on the header, only if the user is logged in.
+## Usage
+
+- Visit the homepage and sign up
+- Browse challenges on /challenges
+- Create new challenges on /create
