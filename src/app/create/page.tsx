@@ -20,7 +20,7 @@ const formSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description must be less than 2000 characters'),
   difficulty: z.enum(['easy', 'medium', 'hard']),
   tags: z.string().optional(),
-  link: z.string().url('Please enter a valid URL').min(1, 'Link is required'),
+  link: z.string().url('Please enter a valid URL').optional().or(z.literal('')),
 });
 
 export default function CreateChallenge() {
@@ -277,8 +277,8 @@ export default function CreateChallenge() {
                            <div className={`w-2 h-2 rounded-full ${watchedDescription.length >= 10 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
                            Description
                          </span>
-                         <span className={`flex items-center gap-1 ${watchedLink.length > 0 ? 'text-green-600' : ''}`}>
-                           <div className={`w-2 h-2 rounded-full ${watchedLink.length > 0 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
+                         <span className={`flex items-center gap-1 ${(watchedLink?.length ?? 0) > 0 ? 'text-green-600' : ''}`}>
+                           <div className={`w-2 h-2 rounded-full ${(watchedLink?.length ?? 0) > 0 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
                            Link
                          </span>
                          <span className={`flex items-center gap-1 ${form.formState.isValid ? 'text-green-600' : ''}`}>

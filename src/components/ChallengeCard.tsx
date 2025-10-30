@@ -13,7 +13,7 @@ interface Challenge {
   description: string;
   difficulty: 'easy' | 'medium' | 'hard';
   tags: string[];
-  link: string;
+  link?: string;
 }
 
 interface ChallengeCardProps {
@@ -94,11 +94,13 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
   };
 
   const handleCardClick = () => {
-    window.open(challenge.link, '_blank');
+    if (challenge.link) {
+      window.open(challenge.link, '_blank');
+    }
   };
 
   return (
-    <Card className={`group relative overflow-hidden h-[420px] flex flex-col hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 hover:border-primary/30 bg-card/60 backdrop-blur-sm cursor-pointer ${isSolved ? 'ring-2 ring-green-500/30 shadow-lg shadow-green-500/10' : 'hover:shadow-primary/5'}`} onClick={handleCardClick}>
+    <Card className={`group relative overflow-hidden h-[420px] flex flex-col hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 hover:border-primary/30 bg-card/60 backdrop-blur-sm ${challenge.link ? 'cursor-pointer' : ''} ${isSolved ? 'ring-2 ring-green-500/30 shadow-lg shadow-green-500/10' : 'hover:shadow-primary/5'}`} onClick={handleCardClick}>
       {/* Background gradient overlay for solved challenges */}
       {isSolved && (
         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-green-500/5 pointer-events-none" />

@@ -14,7 +14,7 @@ export default defineSchema({
     description: v.string(),
     difficulty: v.union(v.literal("easy"), v.literal("medium"), v.literal("hard")),
     tags: v.array(v.string()),
-    link: v.string(),
+    link: v.optional(v.string()),
     createdBy: v.string(),
     createdAt: v.number(),
   }),

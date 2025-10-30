@@ -8,7 +8,7 @@ export const createChallenge = mutation({
     description: v.string(),
     difficulty: v.union(v.literal("easy"), v.literal("medium"), v.literal("hard")),
     tags: v.array(v.string()),
-    link: v.string(),
+    link: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -159,11 +159,11 @@ export const seedChallenges = mutation({
 
     const mockChallenges = [
       {
-        title: "Hello World",
-        description: "Write a program that prints 'Hello, World!' to the console. This is the classic first program that every programmer writes.",
-        difficulty: "easy" as const,
-        tags: ["javascript", "basics", "console"],
-        link: "https://leetcode.com/problems/hello-world/",
+        title: "Add Two Numbers",
+        description: "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.",
+        difficulty: "medium" as const,
+        tags: ["javascript", "linked-list", "math"],
+        link: "https://leetcode.com/problems/add-two-numbers/",
       },
       {
         title: "FizzBuzz",
