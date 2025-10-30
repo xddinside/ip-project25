@@ -20,6 +20,7 @@ const formSchema = z.object({
   description: z.string().min(10, 'Description must be at least 10 characters').max(2000, 'Description must be less than 2000 characters'),
   difficulty: z.enum(['easy', 'medium', 'hard']),
   tags: z.string().optional(),
+  link: z.string().url('Please enter a valid URL').min(1, 'Link is required'),
 });
 
 export default function CreateChallenge() {
@@ -34,11 +35,13 @@ export default function CreateChallenge() {
       description: '',
       difficulty: 'easy',
       tags: '',
+      link: '',
     },
   });
 
   const watchedTitle = form.watch('title');
   const watchedDescription = form.watch('description');
+  const watchedLink = form.watch('link');
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsSubmitting(true);
@@ -48,6 +51,7 @@ export default function CreateChallenge() {
         description: values.description,
         difficulty: values.difficulty,
         tags: values.tags ? values.tags.split(',').map(t => t.trim()).filter(Boolean) : [],
+        link: values.link,
       });
       form.reset();
       setIsSuccess(true);
@@ -108,30 +112,55 @@ export default function CreateChallenge() {
                     )}
                   />
 
-                  {/* Description Field */}
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-semibold">
-                          Description
-                        </FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Describe the problem statement, input/output requirements, constraints, and provide examples..."
-                            className="min-h-[140px] text-base border-border/50 focus:border-primary/50 transition-all duration-200 bg-background/50 resize-none"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription className="flex items-center gap-1 text-xs">
-                          <Lightbulb size={12} className="text-amber-500" />
-                          Include problem statement, examples, and any hints or constraints
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                   {/* Description Field */}
+                   <FormField
+                     control={form.control}
+                     name="description"
+                     render={({ field }) => (
+                       <FormItem>
+                         <FormLabel className="text-base font-semibold">
+                           Description
+                         </FormLabel>
+                         <FormControl>
+                           <Textarea
+                             placeholder="Describe the problem statement, input/output requirements, constraints, and provide examples..."
+                             className="min-h-[140px] text-base border-border/50 focus:border-primary/50 transition-all duration-200 bg-background/50 resize-none"
+                             {...field}
+                           />
+                         </FormControl>
+                         <FormDescription className="flex items-center gap-1 text-xs">
+                           <Lightbulb size={12} className="text-amber-500" />
+                           Include problem statement, examples, and any hints or constraints
+                         </FormDescription>
+                         <FormMessage />
+                       </FormItem>
+                     )}
+                   />
+
+                   {/* Link Field */}
+                   <FormField
+                     control={form.control}
+                     name="link"
+                     render={({ field }) => (
+                       <FormItem>
+                         <FormLabel className="text-base font-semibold">
+                           Challenge Link
+                         </FormLabel>
+                         <FormControl>
+                           <Input
+                             placeholder="https://leetcode.com/problems/two-sum/"
+                             className="h-12 text-base border-border/50 focus:border-primary/50 transition-all duration-200 bg-background/50"
+                             {...field}
+                           />
+                         </FormControl>
+                         <FormDescription className="flex items-center gap-1 text-xs">
+                           <Lightbulb size={12} className="text-amber-500" />
+                           Link to the original problem on LeetCode, HackerRank, or similar platforms
+                         </FormDescription>
+                         <FormMessage />
+                       </FormItem>
+                     )}
+                   />
 
                   {/* Tags and Difficulty Row */}
                   <div className="grid md:grid-cols-3 gap-6 items-start">
@@ -237,23 +266,27 @@ export default function CreateChallenge() {
                       )}
                     </Button>
 
-                    {/* Form Status */}
-                    <div className="mt-4 text-center">
-                      <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
-                        <span className={`flex items-center gap-1 ${watchedTitle.length > 0 ? 'text-green-600' : ''}`}>
-                          <div className={`w-2 h-2 rounded-full ${watchedTitle.length > 0 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
-                          Title
-                        </span>
-                        <span className={`flex items-center gap-1 ${watchedDescription.length >= 10 ? 'text-green-600' : ''}`}>
-                          <div className={`w-2 h-2 rounded-full ${watchedDescription.length >= 10 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
-                          Description
-                        </span>
-                        <span className={`flex items-center gap-1 ${form.formState.isValid ? 'text-green-600' : ''}`}>
-                          <div className={`w-2 h-2 rounded-full ${form.formState.isValid ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
-                          Ready
-                        </span>
-                      </div>
-                    </div>
+                     {/* Form Status */}
+                     <div className="mt-4 text-center">
+                       <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground">
+                         <span className={`flex items-center gap-1 ${watchedTitle.length > 0 ? 'text-green-600' : ''}`}>
+                           <div className={`w-2 h-2 rounded-full ${watchedTitle.length > 0 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
+                           Title
+                         </span>
+                         <span className={`flex items-center gap-1 ${watchedDescription.length >= 10 ? 'text-green-600' : ''}`}>
+                           <div className={`w-2 h-2 rounded-full ${watchedDescription.length >= 10 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
+                           Description
+                         </span>
+                         <span className={`flex items-center gap-1 ${watchedLink.length > 0 ? 'text-green-600' : ''}`}>
+                           <div className={`w-2 h-2 rounded-full ${watchedLink.length > 0 ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
+                           Link
+                         </span>
+                         <span className={`flex items-center gap-1 ${form.formState.isValid ? 'text-green-600' : ''}`}>
+                           <div className={`w-2 h-2 rounded-full ${form.formState.isValid ? 'bg-green-500' : 'bg-muted-foreground'}`}></div>
+                           Ready
+                         </span>
+                       </div>
+                     </div>
                   </div>
                 </form>
               </Form>

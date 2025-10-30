@@ -13,6 +13,7 @@ interface Challenge {
   description: string;
   difficulty: 'easy' | 'medium' | 'hard';
   tags: string[];
+  link: string;
 }
 
 interface ChallengeCardProps {
@@ -60,7 +61,8 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
 
   const difficultyConfig = getDifficultyConfig(challenge.difficulty);
 
-  const handleToggleSolved = async () => {
+  const handleToggleSolved = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!userId) return;
 
     setIsUpdating(true);
@@ -77,7 +79,8 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
     }
   };
 
-  const handleRateChallenge = async (rating: number) => {
+  const handleRateChallenge = async (rating: number, e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!userId) return;
 
     try {
@@ -90,8 +93,12 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
     }
   };
 
+  const handleCardClick = () => {
+    window.open(challenge.link, '_blank');
+  };
+
   return (
-    <Card className={`group relative overflow-hidden h-[420px] flex flex-col hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 hover:border-primary/30 bg-card/60 backdrop-blur-sm ${isSolved ? 'ring-2 ring-green-500/30 shadow-lg shadow-green-500/10' : 'hover:shadow-primary/5'}`}>
+    <Card className={`group relative overflow-hidden h-[420px] flex flex-col hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 border-border/50 hover:border-primary/30 bg-card/60 backdrop-blur-sm cursor-pointer ${isSolved ? 'ring-2 ring-green-500/30 shadow-lg shadow-green-500/10' : 'hover:shadow-primary/5'}`} onClick={handleCardClick}>
       {/* Background gradient overlay for solved challenges */}
       {isSolved && (
         <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-green-500/5 pointer-events-none" />
@@ -163,7 +170,7 @@ export default function ChallengeCard({ challenge, isSolved = false, userId }: C
                   return (
                     <button
                       key={star}
-                      onClick={() => handleRateChallenge(star)}
+                      onClick={(e) => handleRateChallenge(star, e)}
                       onMouseEnter={() => setHoveredRating(star)}
                       onMouseLeave={() => setHoveredRating(0)}
                       className="transition-colors duration-150 hover:scale-110"
